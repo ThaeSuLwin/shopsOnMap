@@ -13,9 +13,20 @@ class ShopController extends Controller
     public function index()
     {
         $shops = Shop::orderby('id', 'desc')->get();
-
         return response()->json($shops);
+     
     }
+
+
+
+
+    public function mapView()
+    {
+        $shops = Shop::orderby('id', 'desc')->get();
+        return \App\Http\Resources\ShopResource::collection($shops);
+    }
+
+
 
     public function store(Request $request)
     {

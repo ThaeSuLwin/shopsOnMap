@@ -40,20 +40,20 @@
             }
         },
         mounted() {
-            this.editProduct(this.$route.params.productId);
+            this.editShop(this.$route.params.shopId);
         },
         methods: {
-            editProduct(productId) {
-                this.axios.get(`http://127.0.0.1:8000/api/products/${productId}`)
+            editShop(shopId) {
+                this.axios.get(`http://127.0.0.1:8000/api/v1/shops/${shopId}`)
                    .then((res) => {
-                       this.product = res.data;
+                       this.shop = res.data;
                    });
             },
             updateShop() {
                 this.axios
-                    .patch(`http://127.0.0.1:8000/api/products/${this.$route.params.productId}`, this.product)
+                    .patch(`http://127.0.0.1:8000/api/v1/shops/${this.$route.params.shopId}`, this.shop)
                     .then((res) => {
-                        this.$router.push({ name: 'ProductIndex' });
+                        this.$router.push({ name: 'ShopIndex' });
                     });
             }
         }

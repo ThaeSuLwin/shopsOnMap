@@ -40,14 +40,14 @@
         },
         methods: {
             editProduct(productId) {
-                this.axios.get(`http://127.0.0.1:8000/api/products/${productId}`)
+                this.axios.get(`http://127.0.0.1:8000/api/v1/products/${productId}`)
                    .then((res) => {
                        this.product = res.data;
                    });
             },
             updateProduct() {
                 this.axios
-                    .patch(`http://127.0.0.1:8000/api/products/${this.$route.params.productId}`, this.product)
+                    .patch(`http://127.0.0.1:8000/api/v1/products/${this.$route.params.productId}`, this.product)
                     .then((res) => {
                         this.$router.push({ name: 'ProductIndex' });
                     });

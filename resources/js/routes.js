@@ -5,6 +5,8 @@ import ProductEdit from './components/products/edit.vue';
 import ShopIndex from './components/shops/index.vue';
 import ShopCreate from './components/shops/create.vue';
 import ShopEdit from './components/shops/edit.vue';
+import MapView from './components/shops/view.vue';
+
 
 export const routes = [
     {
@@ -36,5 +38,10 @@ export const routes = [
         path: '/shops/edit/:id',
         component: ShopEdit,
         name: "ShopEdit"
+    },
+    {
+        path: '/shops/map-view',
+        component: MapView,
+        name: "MapView"
     }
 ];

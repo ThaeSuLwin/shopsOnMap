@@ -4,6 +4,7 @@
         <div class="row">
             <div class="col-md-12">
                 <router-link :to="{ name: 'ShopCreate' }" class="btn btn-primary btn-sm float-right mb-2">Add New</router-link>
+                <router-link :to="{ name: 'MapView' }" class="btn btn-info btn-sm float-right mx-2 mb-2">View On Map</router-link>
             </div>
         </div>
         <div class="row">

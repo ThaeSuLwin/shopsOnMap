@@ -50,14 +50,14 @@
         },
         methods: {
             getProducts() {
-              this.axios.get('http://127.0.0.1:8000/api/products')
+              this.axios.get('http://127.0.0.1:8000/api/v1/products')
                   .then(response => {
                       this.products = response.data;
                   });
             },
             deleteProduct(productId) {
                 this.axios
-                    .delete(`http://127.0.0.1:8000/api/products/${productId}`)
+                    .delete(`http://127.0.0.1:8000/api/v1/products/${productId}`)
                     .then(response => {
                         let i = this.products.map(data => data.id).indexOf(productId);
                         this.products.splice(i, 1)

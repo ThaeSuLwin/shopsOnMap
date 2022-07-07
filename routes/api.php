@@ -21,7 +21,10 @@ use App\Http\Controllers\Api\v1\ShopController;
 
 Route::middleware('api')->prefix('v1')->group(function () {
     Route::resource('products', ProductController::class);
+    Route::get('/shops/map-view',[\App\Http\Controllers\Api\v1\ShopController::class,'mapView']);
     Route::resource('shops', ShopController::class);
+  
+    
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
