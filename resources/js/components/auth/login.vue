@@ -43,8 +43,7 @@
                                     Sign In
                                 </button>
                                 
-                            </div>
-                            
+                            </div>                         
                         </div>
                         <div class="form-group row mb-4">
                         <div class="col-md-8 offset-md-4">

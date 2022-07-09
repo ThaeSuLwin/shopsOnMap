@@ -5,7 +5,7 @@
 						<li class="nav-item dropdown">
               <!-- <router-link :to="{ name: 'ProductIndex' }"  class="nav-item nav-link">Products</router-link> -->
 						</li>
-<li class="nav-item dropdown">
+            <li class="nav-item dropdown">
                <router-link :to="{ name: 'ShopIndex' }"  class="nav-item nav-link">Shops</router-link>
 						</li>
             <li class="nav-item dropdown">

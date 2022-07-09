@@ -2152,7 +2152,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Login",
   data: function data() {
@@ -2663,6 +2662,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _nav_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../nav.vue */ "./resources/js/components/nav.vue");
 //
 //
 //
@@ -2698,6 +2698,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2914,6 +2915,28 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2938,20 +2961,30 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         lng: 95.901376
       },
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      attribution: 'Shops On Map',
+      attribution: "Shops On Map",
       markers: [],
-      markerObjects: null
+      markerObjects: null,
+      users: [],
+      search: {}
     };
   },
   created: function created() {
-    this.getShops();
+    this.getShops() & this.getUsers();
   },
   methods: {
     getShops: function getShops() {
       var _this = this;
 
-      this.axios.get('http://127.0.0.1:8000/api/v1/shops/map-view').then(function (response) {
+      this.axios.get("http://127.0.0.1:8000/api/v1/shops/map-view").then(function (response) {
         _this.markers = response.data.data;
+      });
+    },
+    getUsers: function getUsers() {
+      var _this2 = this;
+
+      this.axios.get("http://127.0.0.1:8000/api/v1/auth/users").then(function (response) {
+        // console.log(response.data);
+        _this2.users = response.data;
       });
     },
     displayTooltip: function displayTooltip(selectedIndex) {
@@ -2970,6 +3003,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
 
       this.markerObjects[selectedIndex].toggleTooltip();
+    },
+    filtersearch: function filtersearch() {
+      var _this3 = this;
+
+      console.log(this.search);
+      this.axios.post("http://127.0.0.1:8000/api/v1/shops/search", this.search).then(function (response) {
+        console.log(response.data.data);
+        _this3.markers = response.data.data;
+      });
+    },
+    clearSearch: function clearSearch() {
+      this.search = "";
+      this.getShops();
     }
   }
 });
@@ -7595,7 +7641,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nhtml,\nbody,\n#app,\ndiv.container {\n  width: 100%;\n  height: 100%;\n  top: 50%;\n  left: 50%;\n}\nli {\n  cursor: pointer;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nhtml,\nbody,\n#app,\ndiv.container {\n  width: 100%;\n  height: 90%;\n  /* float: left; */\n}\nli {\n  cursor: pointer;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -55472,12 +55518,161 @@ var render = function () {
     [
       _c("Navbar"),
       _vm._v(" "),
-      _vm._m(0),
+      _c("div", { staticClass: "card", staticStyle: { float: "right" } }, [
+        _c("div", { staticClass: "card-header text-center" }, [
+          _vm._v("\n        Search Shops\n      "),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function ($event) {
+                  $event.preventDefault()
+                  return _vm.filtersearch()
+                },
+              },
+            },
+            [
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search.name,
+                      expression: "search.name",
+                    },
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Search by shop name" },
+                  domProps: { value: _vm.search.name },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.search, "name", $event.target.value)
+                    },
+                  },
+                }),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.search.user_id,
+                        expression: "search.user_id",
+                      },
+                    ],
+                    staticClass: "form-control",
+                    on: {
+                      change: function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.search,
+                          "user_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                    },
+                  },
+                  [
+                    _c(
+                      "option",
+                      { attrs: { value: "" }, domProps: { selected: true } },
+                      [_vm._v("---Select---")]
+                    ),
+                    _vm._v(" "),
+                    _vm._l(_vm.users, function (user) {
+                      return _c("option", { domProps: { value: user.id } }, [
+                        _vm._v(
+                          "\n            " + _vm._s(user.name) + "\n          "
+                        ),
+                      ])
+                    }),
+                  ],
+                  2
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.search.lat,
+                          expression: "search.lat",
+                        },
+                      ],
+                      staticClass: "form-control mt-1",
+                      attrs: { type: "text", placeholder: "latitude" },
+                      domProps: { value: _vm.search.lat },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.search, "lat", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.search.long,
+                          expression: "search.long",
+                        },
+                      ],
+                      staticClass: "form-control mt-1",
+                      attrs: { type: "text", placeholder: "longitude" },
+                      domProps: { value: _vm.search.long },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.search, "long", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]),
+                ]),
+              ]),
+              _vm._v(" "),
+              _vm._m(0),
+            ]
+          ),
+        ]),
+      ]),
       _vm._v(" "),
       _c(
         "l-map",
         {
-          staticStyle: { height: "100%", width: "100%" },
+          staticStyle: { height: "100%", width: "50%" },
           attrs: { zoom: _vm.zoom, center: _vm.center },
         },
         [
@@ -55496,7 +55691,7 @@ var render = function () {
               },
               [
                 _c("l-tooltip", [
-                  _vm._v("\n     " + _vm._s(marker.name) + "\n      \n      "),
+                  _vm._v("\n          " + _vm._s(marker.name) + "\n        "),
                 ]),
               ],
               1
@@ -55514,66 +55709,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("form", { attrs: { method: "POST", action: "" } }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            name: "voltage",
-            placeholder: "Search by name",
-          },
-        }),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            name: "elevation",
-            placeholder: "Search by user name",
-          },
-        }),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("input", {
-              staticClass: "form-control mt-1",
-              attrs: { type: "text", placeholder: "latitude", name: "lat" },
-            }),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("input", {
-              staticClass: "form-control mt-1",
-              attrs: { type: "text", placeholder: "longitude", name: "long" },
-            }),
-          ]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("div", { staticClass: "row ml-1" }, [
-          _c("div", [
-            _c("input", {
-              staticClass: "btn btn-primary ",
-              attrs: {
-                onclick: "filtersearch()",
-                type: "submit",
-                value: "search",
-              },
-            }),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "ml-2 btn btn-danger " }, [
-            _c("a", { staticClass: "text-white", attrs: { href: "" } }, [
-              _vm._v("Clear Search"),
-            ]),
-          ]),
-        ]),
+    return _c("div", { staticClass: "form-group" }, [
+      _c("div", { staticClass: "row m-1" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary w-100", attrs: { type: "submit" } },
+          [_vm._v("Search")]
+        ),
       ]),
     ])
   },

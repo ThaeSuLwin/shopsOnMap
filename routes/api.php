@@ -22,11 +22,12 @@ use App\Http\Controllers\Api\v1\ShopController;
 Route::middleware('api')->prefix('v1')->group(function () {
     Route::resource('products', ProductController::class);
     Route::get('/shops/map-view',[\App\Http\Controllers\Api\v1\ShopController::class,'mapView']);
+    Route::post('/shops/search',[\App\Http\Controllers\Api\v1\ShopController::class,'search']);
     Route::resource('shops', ShopController::class);
     
     Route::post('/auth/login',[\App\Http\Controllers\Api\v1\AuthController::class,'login']);
     Route::post('/auth/register',[\App\Http\Controllers\Api\v1\AuthController::class,'register']);
-  
+    Route::get('/auth/users',[\App\Http\Controllers\Api\v1\AuthController::class,'users']);
     
 });
 

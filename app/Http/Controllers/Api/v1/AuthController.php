@@ -41,4 +41,13 @@ class AuthController extends Controller
     return response(['message' => 'Error']);
    
   }
+
+
+
+
+  public function users()
+  {
+    $users = User::orderby('id', 'desc')->get();
+    return response()->json($users);
+  }
 }

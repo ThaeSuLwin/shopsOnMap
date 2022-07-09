@@ -64,4 +64,32 @@ class ShopController extends Controller
 
          return response()->json('shop successfully deleted!');
     }
+
+
+    public function search(Request $request)
+    {
+        $name = $request->name;
+        $user_id = $request->user_id;
+        $lat = $request->lat;
+        $long = $request->long;
+
+        $query = Shop::select('*');
+
+        if($name){
+            $query->where('name', 'like', '%'.$name.'%');
+        }
+        if($user_id){
+            $query->where('user_id','=',$user_id);
+        }
+        if($lat){
+            $query->where('latitude','=',$lat);
+        }
+        if($long){
+            $query->where('longitude','=',$long);
+        }
+
+        $shops = $query->orderBy('id', 'DESC')
+        ->get();
+        return \App\Http\Resources\ShopResource::collection($shops);
+    }
 }
