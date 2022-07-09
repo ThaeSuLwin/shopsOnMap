@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    <Navbar/>
-    <!-- <ul>
+    <ul>
       <li
         v-for="(marker, index) in markers"
         :key="index"
@@ -9,39 +8,7 @@
       >
         {{ marker.name }}
       </li>
-    </ul> -->
-      <form  method="POST" action="">
-                    
-                    
-
-                    <div class="form-group">
-                        <input type="text"  class="form-control" name="voltage" placeholder="Search by name">
-                    </div>
-                    <div class="form-group">
-                        <input type="text"  class="form-control" name="elevation" placeholder="Search by user name">
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <input type="text"  class="form-control mt-1" placeholder="latitude" name="lat">
-                            </div>
-                            <div class="col-md-6">
-                                <input type="text"  class="form-control mt-1" placeholder="longitude" name="long">
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="row ml-1">
-                            <div>
-                                <input onclick="filtersearch()" type="submit" class="btn btn-primary " value="search">
-                            </div>
-                            <div class="ml-2 btn btn-danger ">
-                                <a href="" class="text-white">Clear Search</a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+    </ul>
 
     <l-map :zoom="zoom" :center="center" style="height: 100%; width:100%">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
@@ -66,8 +33,6 @@
 import { LMap, LTileLayer, LMarker, LTooltip, LPopup } from "vue2-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import Navbar from "../nav.vue";
-  
 
 L.Icon.Default.imagePath = "https://unpkg.com/leaflet@1.3.4/dist/images/";
 
@@ -79,15 +44,13 @@ export default {
     "l-marker": LMarker,
     "l-tooltip": LTooltip,
     "l-popup": LPopup,
-    Navbar
   },
   data() {
     return {
       zoom: 10,
-      maxZoom: 18,
       center: { lat: 16.8389525, lng: 95.901376 },
-      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      attribution:  'Shops On Map',
+      url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+
       markers: [],
       markerObjects: null,
 
@@ -97,6 +60,14 @@ export default {
   created: function () {
           this.getShops();
         },
+
+  mounted: function () {
+    this.$nextTick(() => {
+      this.markerObjects = this.$refs.markersRef.map((ref) => ref.mapObject);
+    });
+    
+  },
+
   methods: {
     getShops() {
               this.axios.get('http://127.0.0.1:8000/api/v1/shops/map-view')

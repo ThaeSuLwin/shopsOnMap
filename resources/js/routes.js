@@ -7,6 +7,9 @@ import ShopCreate from './components/shops/create.vue';
 import ShopEdit from './components/shops/edit.vue';
 import MapView from './components/shops/view.vue';
 
+import Login from './components/auth/login.vue';
+import Register from './components/auth/register.vue';
+
 
 export const routes = [
     {
@@ -25,10 +28,23 @@ export const routes = [
         name: "ProductEdit"
     },
     {
-        path: '/shops',
+        path:"/",
+        redirect: "/shops",
         component: ShopIndex,
-        name: "ShopIndex"
+        meta: {requiresAuth: true},
+        children: [
+            {
+                path: '/shops',
+                component: ShopIndex,
+                name: "ShopIndex"
+            },
+        ]
     },
+    // {
+    //     path: '/shops',
+    //     component: ShopIndex,
+    //     name: "ShopIndex"
+    // },
     {
         path: '/shops/create',
         component: ShopCreate,
@@ -43,5 +59,29 @@ export const routes = [
         path: '/shops/map-view',
         component: MapView,
         name: "MapView"
-    }
+    },
+    {
+        path: '/login',
+        component: Login,
+        name: "Login"
+    },
+    {
+        path: '/register',
+        component: Register,
+        name: "Register"
+    },
+    
 ];
+
+// const token = routes.app.$session.get('jwt');
+// console.log(token)
+// console.log(app.$session);
+// routes.beforeEach((to, from, next) => {
+//     if (to.meta.requiresAuth && !token.token) {
+//       next({ name: "Login" });
+//     } else {
+//       next();
+//     }
+//   });
+
+// export default routes;

@@ -1,5 +1,7 @@
 <template>
+
     <div class="container">
+       <Navbar/>
         <h2 class="text-center">Shop List</h2>
         <div class="row">
             <div class="col-md-12">
@@ -9,6 +11,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
+              
                 <table class="table">
                     <thead>
                     <tr>
@@ -42,12 +45,17 @@
 </template>
 
 <script>
+import Navbar from "../nav.vue";
     export default {
+        components: {
+            Navbar
+        },
         data() {
             return {
                 shops: {}
             }
         },
+        
         created() {
             this.getShops();
         },

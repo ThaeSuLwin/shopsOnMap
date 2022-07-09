@@ -26,8 +26,10 @@
     },
     "dependencies": {
         "leaflet": "^1.8.0",
+        "vform": "^2.1.2",
         "vue-axios": "^3.3.7",
         "vue-router": "^3.5.3",
+        "vue-session": "^1.0.0",
         "vue2-google-maps": "^0.10.7",
         "vue2-leaflet": "^2.7.1"
     }

@@ -1,5 +1,7 @@
 <template>
+
     <div class="container">
+         <Navbar/>
         <h2 class="text-center">Create shop</h2>
         <div class="row">
             <div class="col-md-12">
@@ -9,6 +11,10 @@
         <div class="row">
             <div class="col-md-12">
                 <form>
+                    <div class="form-group">
+                        <label>User</label>
+                        <input type="text" class="form-control" v-model="shop.user_id">
+                    </div>
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" class="form-control" v-model="shop.name">
@@ -33,12 +39,22 @@
 </template>
 
 <script>
+import Navbar from "../nav.vue";
     export default {
+        components: {
+            Navbar
+        },
         data() {
             return {
-                shop: {}
+                shop: {
+                    user_id: ''
+                }
             }
         },
+        created() {
+        let session = this.$session.get('jwt');
+        this.shop.user_id = session.user.id;
+         },
         methods: {
             createShop() {
                 this.axios.post('http://127.0.0.1:8000/api/v1/shops', this.shop)

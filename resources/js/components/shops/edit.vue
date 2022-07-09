@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <Navbar/>
         <h2 class="text-center">Update Shop</h2>
         <div class="row">
             <div class="col-md-12">
