@@ -75,7 +75,30 @@
         <l-tooltip>
           {{ marker.name }}
         </l-tooltip>
-        <!-- <l-popup>{{marker.name}}</l-popup> -->
+        <l-popup>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                 <img v-bind:src="'/shop-images/'+marker.image" alt="" style="width:50px; height:50px;"></img>
+              </div>
+              <div class="col-md-6">
+                 <h4 class="">{{marker.name}}</h4>
+              </div>
+              <div class="col-md-12">
+                 <p> {{ marker.description }}</p>
+              </div>
+            </div>
+
+          </div>
+         
+         
+          
+          
+       
+        
+        
+          
+          </l-popup>
         <!-- l-popup :content="marker.name"/ -->
       </l-marker>
     </l-map>
@@ -123,6 +146,7 @@ export default {
       this.axios
         .get("http://127.0.0.1:8000/api/v1/shops/map-view")
         .then((response) => {
+          console.log(response.data.data);
           this.markers = response.data.data;
         });
     },
@@ -146,7 +170,7 @@ export default {
       this.axios
         .post("http://127.0.0.1:8000/api/v1/shops/search", this.search)
         .then((response) => {
-          console.log(response.data.data);
+          
           this.markers = response.data.data;
         });
     },

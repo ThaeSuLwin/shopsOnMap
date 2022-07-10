@@ -29,16 +29,10 @@ export const routes = [
     },
     {
         path:"/",
-        redirect: "/shops",
+        redirect: "/",
         component: ShopIndex,
         meta: {requiresAuth: true},
-        children: [
-            {
-                path: '/shops',
-                component: ShopIndex,
-                name: "ShopIndex"
-            },
-        ]
+        
     },
     // {
     //     path: '/shops',

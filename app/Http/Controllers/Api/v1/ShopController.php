@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 use App\Models\Shop;
 
 
@@ -30,8 +30,20 @@ class ShopController extends Controller
 
     public function store(Request $request)
     {
+        return $request->image;
+        $image = $request->image;
+        $image_name = $image->getClientOriginalName();
+        $request->image->move(public_path('shop-images'), $image_name);
 
-        $shop = Shop::create($request->all());
+        $shop = Shop::create($request->only(
+            'name',
+            'description',
+            'latitude',
+            'longitude'
+        ) + [
+        'image' => $image_name
+        ]
+        );
 
         return response()->json([
             'status' => 'success',
@@ -49,7 +61,21 @@ class ShopController extends Controller
     public function update(Request $request, $id)
     {
         $shop = Shop::find($id);
-        $shop->update($request->all());
+        if($request->has('image'))
+        {
+        $image = $request->image;
+        $image_name = $image->getClientOriginalName();
+        $request->image->move(public_path('shop-images'), $image_name);
+        $shop->image = $image_name;
+        }
+        $shop->update($request->only(
+            'name',
+            'description',
+            'latitude',
+            'longitude'
+        ) 
+        );
+        
 
         return response()->json([
             'status' => 'success',
