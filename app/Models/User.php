@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        
     ];
 
     /**
@@ -46,5 +46,10 @@ class User extends Authenticatable
     public function findForPassport($email)
     {
         return $this->where('email', $email)->first();
+    }
+
+    public function role()
+    {
+        return $this->hasOne(Role::class,'id','role');
     }
 }

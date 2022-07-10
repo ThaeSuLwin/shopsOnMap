@@ -3,9 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Api\v1\ProductController;
+use App\Http\Controllers\Api\v1\UserController;
 use App\Http\Controllers\Api\v1\ShopController;
-
+use App\Http\Controllers\Api\v1\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +20,14 @@ use App\Http\Controllers\Api\v1\ShopController;
 
 
 Route::middleware('api')->prefix('v1')->group(function () {
-    Route::resource('products', ProductController::class);
+    Route::post('/users/password/{id}',[\App\Http\Controllers\Api\v1\UserController::class,'changePsw']);
+    Route::get('/users/detail/{id}',[\App\Http\Controllers\Api\v1\UserController::class,'detail']);
+    Route::resource('users', UserController::class);
+    Route::get('/roles',[\App\Http\Controllers\Api\v1\RoleController::class,'index']);
     Route::get('/shops/map-view',[\App\Http\Controllers\Api\v1\ShopController::class,'mapView']);
     Route::post('/shops/search',[\App\Http\Controllers\Api\v1\ShopController::class,'search']);
+    
+    Route::post('/shops/filter',[\App\Http\Controllers\Api\v1\ShopController::class,'filter']);
     Route::resource('shops', ShopController::class);
     
     Route::post('/auth/login',[\App\Http\Controllers\Api\v1\AuthController::class,'login']);

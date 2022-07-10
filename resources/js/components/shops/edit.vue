@@ -11,7 +11,7 @@
             <label>Name</label>
             <input type="text" class="form-control" v-model="shop.name" />
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>Description</label>
             <textarea
               type="text"
@@ -19,6 +19,14 @@
               class="form-control"
               v-model="shop.description"
             ></textarea>
+          </div> -->
+           <div class="form-group">
+            <label>Hour</label>
+            <input type="text" class="form-control" v-model="shop.hour" />
+          </div>
+           <div class="form-group">
+            <label>Address</label>
+            <input type="text" class="form-control" v-model="shop.address" />
           </div>
           <div class="form-group">
             <div class="row">
@@ -133,7 +141,7 @@ export default {
     editShop(id) {
       this.axios.get(`http://127.0.0.1:8000/api/v1/shops/${id}`).then((res) => {
         this.shop = res.data;
-        if (res.data.image !== null) {
+        if (res.data.image != null) {
           this.previewImage = "/shop-images/" + res.data.image;
         }
       });
@@ -145,7 +153,8 @@ export default {
       let formData = new FormData();
       formData.append("image", this.shop.image);
       formData.append("name", this.shop.name);
-      formData.append("description", this.shop.description);
+      formData.append("hour", this.shop.hour);
+      formData.append("address", this.shop.address);
       formData.append("latitude", this.shop.latitude);
       formData.append("longitude", this.shop.longitude);
       formData.append("user_id", this.shop.user_id);

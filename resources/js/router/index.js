@@ -8,6 +8,12 @@ import MapView from "../components/shops/view.vue";
 import Login from "../components/auth/login.vue";
 import Register from "../components/auth/register.vue";
 
+import UserIndex from "../components/users/index.vue";
+import UserCreate from "../components/users/create.vue";
+import UserEdit from "../components/users/edit.vue";
+import ChangePassword from "../components/users/change-password.vue";
+import UserDetail from "../components/users/view.vue";
+
 const routes = [
     {
         path: "/",
@@ -44,6 +50,37 @@ const routes = [
         component: Register,
         name: "Register",
     },
+    {
+        path: "/users",
+        meta: { requiresAuth: true },
+        component: UserIndex,
+        name: "UserIndex",
+    },
+    {
+        path: "/users/create",
+        meta: { requiresAuth: true },
+        component: UserCreate,
+        name: "UserCreate",
+    },
+    {
+        path: "/users/edit/:id",
+        meta: { requiresAuth: true },
+        component: UserEdit,
+        name: "UserEdit",
+    },
+    {
+        path: "/users/password/:id",
+        meta: { requiresAuth: true },
+        component: ChangePassword,
+        name: "ChangePassword",
+    },
+    {
+        path: "/users/:id",
+        meta: { requiresAuth: true },
+        component: UserDetail,
+        name: "UserDetail",
+        
+    }
 ];
 
 const router = new VueRouter({

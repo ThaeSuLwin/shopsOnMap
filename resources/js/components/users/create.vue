@@ -11,62 +11,31 @@
         >
       </div>
     </div> -->
-    <form  @submit.prevent="createShop()" enctype="multipart/form-data">
+    <form  @submit.prevent="createUser()" enctype="multipart/form-data">
       <div class="row card">
         <div class="card-header">
-          <h5 class="text-center">Shop Create Form</h5>
+          <h5 class="text-center">User Create Form</h5>
         </div>
 
         <div class="card-body">
           <div class="form-group">
-            <!-- <label>User</label> -->
-            <input type="hidden" class="form-control" v-model="shop.user_id" />
-          </div>
-          <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control" placeholder="Enter shop's name" v-model="shop.name" />
+            <input type="text" class="form-control" placeholder="Enter user's name" v-model="user.name" />
           </div>
-           <div class="form-group">
-            <label>Hour</label>
-            <input type="text" class="form-control" placeholder="Enter shop's name" v-model="shop.hour" />
-          </div>
-           <div class="form-group">
-            <label>Address</label>
-            <input type="text" class="form-control" placeholder="Enter shop's name" v-model="shop.address" />
-          </div>
-          <!-- <div class="form-group">
-            <label>Description</label>
-            <textarea
-              type="text"
-              rows="2"
-              class="form-control"
-              placeholder="Enter shop's description"
-              v-model="shop.description"
-            ></textarea>
-          </div> -->
           <div class="form-group">
-            <div class="row">
-              <div class="col-md-6">
-                <label>Latitude</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Enter latitude"
-                  v-model="shop.latitude"
-                />
-              </div>
-              <div class="col-md-6">
-                <label>Longitude</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Enter longitude"
-                  v-model="shop.longitude"
-                />
-              </div>
-            </div>
+            <label>Email</label>
+            <input type="text" class="form-control" placeholder="Enter user's name" v-model="user.email" />
           </div>
-
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" placeholder="Enter user's name" v-model="user.password" />
+          </div>
+          <select v-model="user.role" class="form-control">
+                <option :selected="true" value="">---Select---</option>
+                <option v-for="role in roles" v-bind:value="role.id">
+                  {{ role.name }}
+                </option>
+              </select>
           <div class="form-group">
             <label for="">Image</label>
             <div class="row">
@@ -89,7 +58,7 @@
           </div>
           <div class="d-flex flex-row-reverse">
           <router-link
-            :to="{ name: 'ShopIndex' }"
+            :to="{ name: 'UserIndex' }"
             class="btn btn-secondary "
             >Back</router-link
           >
@@ -118,40 +87,38 @@ export default {
   data() {
     return {
       previewImage: "/images/404-square.jpg",
-      shop: {
-        user_id: "",
+      user: {
         name: "",
-        hour: "",
-        address: "",
-        latitude: "",
-        longitude: "",
+        email: "",
+        role: "",
         image: "",
       },
+      roles: []
     };
   },
-  created() {
-    let session = this.$session.get("jwt");
-    this.shop.user_id = session.user.id;
+  created ()
+  {
+     this.axios.get('http://127.0.0.1:8000/api/v1/roles')
+                  .then(response => {
+                      this.roles = response.data;
+                  });
   },
   methods: {
-    createShop() {
+    createUser() {
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
         }
         let formData = new FormData();
-        formData.append('image', this.shop.image)
-        formData.append('name', this.shop.name)
-        formData.append('hour', this.shop.hour)
-        formData.append('address', this.shop.address)
-        formData.append('latitude', this.shop.latitude)
-        formData.append('longitude', this.shop.longitude)
-        formData.append('user_id', this.shop.user_id)
-        console.log(formData.get('image'))
+        formData.append('image', this.user.image)
+        formData.append('name', this.user.name)
+        formData.append('email', this.user.email)
+        formData.append('password', this.user.password)
+        formData.append('role', this.user.role)
       this.axios
-        .post("http://127.0.0.1:8000/api/v1/shops", formData,config)
+        .post("http://127.0.0.1:8000/api/v1/users", formData,config)
         .then((response) => 
-        console.log(response) )
-        // this.$router.push({ name: "ShopIndex" }))
+        // console.log(response) )
+        this.$router.push({ name: "UserIndex" }))
         .catch((err) => console.log(err))
         .finally(() => (this.loading = false));
     },
@@ -169,7 +136,7 @@ export default {
         reader.readAsDataURL(file[0]);
         this.$emit("input", file[0]);
         // console.log(this.$refs.fileInput.value)
-        this.shop.image = file[0];
+        this.user.image = file[0];
       }
     },
   },

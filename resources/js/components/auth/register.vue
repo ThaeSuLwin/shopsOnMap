@@ -6,13 +6,13 @@
                 <div class="card-header">Register</div>
 
                 <div class="card-body">
-                    <form method="POST" action="">
+                    <form @submit.prevent="register()">
                         
                         <div class="form-group row">
                             <label for="email" class="col-sm-4 col-form-label text-md-right">Name</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" v-model="auth.name" value="" >
+                                <input id="email" type="text" class="form-control" v-model="auth.name" value="" >
 
                               
                             </div>
@@ -38,7 +38,7 @@
 
                         <div class="form-group row mb-4">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary w-75" @click="register()">
+                                <button type="submit" class="btn btn-primary w-75">
                                     Sign Up
                                 </button>
 

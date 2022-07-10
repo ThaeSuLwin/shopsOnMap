@@ -10,61 +10,72 @@
         {{ marker.name }}
       </li>
     </ul> -->
-    <div class="card" style="float:right;">
-      <div class="card-header text-center">
-        Search Shops
-      </div>
-    <div class="card-body">
-      <form @submit.prevent="filtersearch()" >
-      <div class="form-group">
-        <input
-          type="text"
-          class="form-control"
-          v-model="search.name"
-          placeholder="Search by shop name"
-        />
-      </div>
-      <div class="form-group">
-        <!-- <input type="text"  class="form-control" name="elevation" placeholder="Search by user name"> -->
-        
-        <select v-model="search.user_id" class="form-control">
-          <option :selected="true" value="">---Select---</option>
-          <option v-for="user in users" v-bind:value="user.id">
-            {{ user.name }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-md-6">
+    <div class="card" style="float: right">
+      <div class="card-header text-center">Search Shops</div>
+      <div class="card-body">
+        <form @submit.prevent="filtersearch()">
+          <div class="form-group">
             <input
               type="text"
-              class="form-control mt-1"
-              placeholder="latitude"
-              v-model="search.lat"
+              class="form-control"
+              v-model="search.name"
+              placeholder="Search by shop name"
             />
           </div>
-          <div class="col-md-6">
+          <div class="form-group">
             <input
               type="text"
-              class="form-control mt-1"
-              placeholder="longitude"
-              v-model="search.long"
+              class="form-control"
+              v-model="search.address"
+              placeholder="Search by shop address"
             />
           </div>
-        </div>
+          <div class="form-group">
+            <!-- <input type="text"  class="form-control" name="elevation" placeholder="Search by user name"> -->
+
+            <select v-model="search.user_id" class="form-control">
+              <option :selected="true" value="">---Select---</option>
+              <option v-for="user in users" v-bind:value="user.id">
+                {{ user.name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  class="form-control mt-1"
+                  placeholder="latitude"
+                  v-model="search.lat"
+                />
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  class="form-control mt-1"
+                  placeholder="longitude"
+                  v-model="search.long"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row m-1">
+              <button type="submit" class="btn btn-primary w-100">
+                Search
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
-      <div class="form-group">
-        <div class="row m-1">
-          
-            <button type="submit" class="btn btn-primary w-100">Search</button>
-          
-        </div>
-      </div>
-    </form>
     </div>
-</div>
-      <l-map :zoom="zoom" :center="center" style="height: 100%; width: 50%">
+    <l-map
+      :zoom="zoom"
+      :center="center"
+      style="height: 100%; width: 50%"
+      @click="handleClick"
+    >
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <l-marker
         v-for="(marker, index) in markers"
@@ -75,36 +86,67 @@
         <l-tooltip>
           {{ marker.name }}
         </l-tooltip>
-        <l-popup>
-          <div class="col-md-12">
-            <div class="row">
-              <div class="col-md-6">
-                 <img v-bind:src="'/shop-images/'+marker.image" alt="" style="width:50px; height:50px;">
+        <l-popup v-if="createShop">
+          <form enctype="multipart/form-data">
+            <div class="row card">
+              <div class="card-header">
+                <h5 class="text-center">Shop Create Form</h5>
               </div>
-              <div class="col-md-6">
-                 <h4 class="">{{marker.name}}</h4>
-              </div>
-              <div class="col-md-12">
-                 <p> {{ marker.description }}</p>
+
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter shop's name"
+                    v-model="shop.name"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Hours</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter shop's name"
+                    v-model="shop.hour"
+                  />
+                </div>
+
+                <!-- <div class="d-flex flex-row-reverse">
+          <router-link
+            :to="{ name: 'ShopIndex' }"
+            class="btn btn-secondary "
+            >Back</router-link
+          >
+          <button
+            type="submit"
+            class="btn btn-primary mx-2 "
+           
+          >
+            Save Changes
+          </button>
+        </div> -->
               </div>
             </div>
-
+          </form>
+        </l-popup>
+        <l-popup v-else>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <h5>{{ marker.name }}</h5>
+              <router-link class="badge badge-success" :to="{ name: 'UserDetail', params: { id: marker.user_id }}"><p class="p-0 m-0">{{ marker.user ? marker.user : '' }}</p> </router-link> 
+                <p class="p-0 m-0">{{ marker.hour }}</p>
+                <p class="p-0 m-0">{{ marker.address }}</p>
+              </div>
+            </div>
           </div>
-         
-         
-          
-          
-       
-        
-        
-          
-          </l-popup>
+        </l-popup>
         <!-- l-popup :content="marker.name"/ -->
       </l-marker>
     </l-map>
-    
-    </div>
-
+  </div>
 </template>
 
 <script>
@@ -136,9 +178,15 @@ export default {
       markerObjects: null,
       users: [],
       search: {},
+      user: {
+        id: "",
+      },
+      shop: {},
+      createShop: false,
     };
   },
   created: function () {
+    
     this.getShops() & this.getUsers();
   },
   methods: {
@@ -154,7 +202,6 @@ export default {
       this.axios
         .get("http://127.0.0.1:8000/api/v1/auth/users")
         .then((response) => {
-          // console.log(response.data);
           this.users = response.data;
         });
     },
@@ -170,13 +217,40 @@ export default {
       this.axios
         .post("http://127.0.0.1:8000/api/v1/shops/search", this.search)
         .then((response) => {
-          
           this.markers = response.data.data;
         });
     },
     clearSearch() {
       this.search = "";
       this.getShops();
+    },
+    handleClick(e) {
+      console.log(e);
+      // this.createShop = true;
+      this.markers.push({
+        name: "Shop Name",
+        hour: "00:00am-00:00pm",
+        address: "",
+        position: {
+          lat: e.latlng.lat,
+          lng: e.latlng.lng,
+        },
+      });
+      let session = this.$session.get("jwt");
+      let formData = new FormData();
+      formData.append("name", "Shop Name");
+      formData.append("hour", "00:00am-00:00pm");
+      formData.append("address", "");
+      formData.append("latitude", e.latlng.lat);
+      formData.append("longitude", e.latlng.lng);
+      formData.append("user_id", session.user.id);
+
+      this.axios
+        .post("http://127.0.0.1:8000/api/v1/shops", formData)
+        .then((response) => console.log(response))
+        // this.$router.push({ name: "ShopIndex" }))
+        .catch((err) => console.log(err))
+        .finally(() => (this.loading = false));
     },
   },
 };

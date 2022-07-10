@@ -2,12 +2,13 @@
   <nav class="navbar navbar-expand navbar-light navbar-bg">
             <div class="collapse navbar-collapse">
               <ul class="navbar-nav navbar-align">
-						<li class="nav-item dropdown">
-              <!-- <router-link :to="{ name: 'ProductIndex' }"  class="nav-item nav-link">Products</router-link> -->
+            <li class="nav-item dropdown">
+               <router-link :to="{ name: 'UserIndex' }"  class="nav-item nav-link text-dark">Users</router-link>
 						</li>
             <li class="nav-item dropdown">
-               <router-link :to="{ name: 'ShopIndex' }"  class="nav-item nav-link">Shops</router-link>
+               <router-link :to="{ name: 'ShopIndex' }"  class="nav-item nav-link text-dark">Shops</router-link>
 						</li>
+             
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                  {{this.user.name}}

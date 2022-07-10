@@ -14,7 +14,7 @@ import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
 import VueSession from "vue-session";
 
-// import * as VueGoogleMaps from "vue2-google-maps"
+import * as VueGoogleMaps from "vue2-google-maps"
 // import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -22,12 +22,11 @@ Vue.use(VueAxios, axios);
 Vue.use(VueSession);
 
 
-// Vue.use(VueGoogleMaps, {
-//     load: {
-//       key: "AIzaSyB0RHP65AGrVflp6KJjzNznuHdJr2IExio",
-//       libraries: "places"
-//     }
-//   });
+Vue.use(VueGoogleMaps, {
+    load: {
+      key: "AIzaSyB0RHP65AGrVflp6KJjzNznuHdJr2IExio",
+    }
+  });
 
 import App from './app.vue';
 import router from './router';

@@ -19,6 +19,10 @@ class ShopResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
+            'user' => $this->user ? $this->user->name : '',
+            'user_id' => $this->user_id,
+            'hour' => $this->hour,
+            'address' => $this->address,
             'image' => $this->image,
             'position' => [
                 'lat' => $this->latitude,
