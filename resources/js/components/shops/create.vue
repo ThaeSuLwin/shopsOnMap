@@ -103,11 +103,9 @@
 
 <script>
 import Navbar from "../nav.vue";
-import ImagePreview from "./imagePreview.vue";
 export default {
   components: {
     Navbar,
-    ImagePreview,
   },
   data() {
     return {

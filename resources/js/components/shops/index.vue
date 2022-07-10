@@ -35,7 +35,11 @@
                             <td scope="row">
                                 <img v-bind:src="'/shop-images/' + shop.image"  alt="shop" style="width:100px; height:100px;">
                             </td>
-                            <td scope="row">{{ shop.name }}</td>
+                            <td scope="row">
+                                {{ shop.name }}
+                                </br>
+                               <span class="badge badge-primary">{{shop.user.name}}</span> 
+                            </td>
                             <td scope="row">{{ shop.description }}</td>
                             <td scope="row">{{ shop.latitude }} </td>
                             <td scope="row">{{shop.longitude }}</td>
@@ -64,16 +68,22 @@ import Navbar from "../nav.vue";
         },
         data() {
             return {
-                shops: {}
+                shops: {},
+                user: {
+                    id: ''
+                },
             }
         },
         
         created() {
+            let session = this.$session.get('jwt');
+            this.user = session.user;
+            
             this.getShops();
         },
         methods: {
             getShops() {
-              this.axios.get('http://127.0.0.1:8000/api/v1/shops')
+              this.axios.get('http://127.0.0.1:8000/api/v1/shops/?userId='+this.user.id)
                   .then(response => {
                       this.shops = response.data;
                   });

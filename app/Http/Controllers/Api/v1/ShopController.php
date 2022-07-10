@@ -12,7 +12,15 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $shops = Shop::orderby('id', 'desc')->get();
+        // return Request()->all();
+        if(Request()->userId == 1) 
+        {
+            $shops = Shop::with('user')->orderby('id', 'desc')->get();
+        }
+        else {
+            $shops = Shop::where('user_id',Request()->userId)->with('user')->orderby('id', 'desc')->get();
+        }
+        
         return response()->json($shops);
      
     }

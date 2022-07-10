@@ -79,7 +79,7 @@
           <div class="col-md-12">
             <div class="row">
               <div class="col-md-6">
-                 <img v-bind:src="'/shop-images/'+marker.image" alt="" style="width:50px; height:50px;"></img>
+                 <img v-bind:src="'/shop-images/'+marker.image" alt="" style="width:50px; height:50px;">
               </div>
               <div class="col-md-6">
                  <h4 class="">{{marker.name}}</h4>
